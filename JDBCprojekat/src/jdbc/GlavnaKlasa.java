@@ -39,12 +39,28 @@ public class GlavnaKlasa {
 /*		//ako vraca sve adrese
 		JdbcMetode.ispisiSveAdrese();*/
 		
-		Osobe o = JdbcMetode.vratiOsobu(2);
+	/*	Osobe o = JdbcMetode.vratiOsobu(2);
 		System.out.println(o.getFirstName() + " " + o.getLastName() + " "+ o.getPosition());
 		
 		OsobaPozicija op = JdbcMetode.vratiOsobuPoziciju(o.getId());
 		System.out.println(op.getFirstName() + " " + op.getLastName() + " "+ op.getPosition());
+		*/
 		
+		//lista osoba
+		
+		List<Osobe> osobeIzBaze = JdbcMetode.vratiSveOsobe();
+		
+		if(osobeIzBaze != null || !osobeIzBaze.isEmpty()) {
+			
+			for(Osobe o: osobeIzBaze) {
+				System.out.print(o.getId() + " ");
+				System.out.print(o.getFirstName()+ " ");
+				System.out.print(o.getLastName()+ " ");
+				System.out.print(o.getIdnr()+ " ");
+				System.out.println(o.getPosition()+ " ");
+			}
+			
+		}
 
 		
 	}

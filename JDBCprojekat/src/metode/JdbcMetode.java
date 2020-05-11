@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import model.OsobaPozicija;
 import model.Osobe;
@@ -300,7 +302,50 @@ public class JdbcMetode {
 				zatvoriKonekciju(konekcija);
 			}	
 		}
-	
+		
+		
+	// metod koji vraca sve osobe
+	public static List<Osobe> vratiSveOsobe(){
+		
+		Connection konekcija = null;
+		PreparedStatement pst = null;
+		ResultSet res = null;
+		
+		List<Osobe> sveOsobe = new ArrayList<Osobe>();
+		
+		try {
+			konekcija = uspostaviKonekciju();
+			String pismo = "SELECT * \n" + 
+						   "FROM osobe";
+			pst = konekcija.prepareStatement(pismo);
+			res = pst.executeQuery();
+			
+			while(res.next()) {
+				
+				//ovde mapira rezultate iz res-a u objekat Osobe
+				Osobe osoba = new Osobe();
+				osoba.setId(res.getInt("id_osobe"));
+				osoba.setFirstName(res.getString("ime"));
+				osoba.setLastName(res.getString("prezime"));
+				osoba.setIdnr(res.getString("jmbg"));
+				osoba.setPosition(res.getInt("pozicija"));
+				//dodaje osobu u listu osoba
+				sveOsobe.add(osoba);
+			}
+			return sveOsobe;
+		} catch (SQLException e) {
+			return null;
+		}finally {
+			zatvoriResultSet(res);
+			zatvoriPreparedStatement(pst);
+			zatvoriKonekciju(konekcija);		
+		}
+		
+		
+		
+		
+		
+	}
 		
 		
 	
